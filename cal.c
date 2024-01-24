@@ -4,6 +4,8 @@
 #define TRUE  1
 #define FALSE 0
 #define TOTAL_MONTHS 12
+#define ROWS 11
+#define COLUMNS 7
 
 typedef enum MONTHS {
   JAN = 0, FEB = 1, MAR = 2, APR = 3,
@@ -15,7 +17,7 @@ int isBissextile(int year);
 int getMonthLength(int month, int year);
 void printCalendar(int monthLength, int month_day, int week_day);
 int findWeekDayOfFirstMonthDay(int monthLength, int month_day, int week_day);
-
+void drawCalendar(int monthLength, int month_day, int week_day);
 
 int main()
 {
@@ -30,19 +32,16 @@ int main()
   int month_day = pTimeInfo->tm_mday;
   int monthLength = getMonthLength(month, year);
   
-  printCalendar(29, 27, 2);
+  drawCalendar(monthLength, month_day, week_day);
 
 
   return 0;
 }
 
 void printCalendar(int monthLength, int month_day, int week_day) {
-  // HEARDER
+ 
+  
   /*
-  printf("___________________________________________\n");
-  printf("|  S  |  M  |  T  |  W  |  T  |  F  |  S  |\n");
-  printf("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
-  */
   int wd;
   int wd_of_first_month_day = 
     findWeekDayOfFirstMonthDay(monthLength, month_day, week_day);
@@ -53,8 +52,8 @@ void printCalendar(int monthLength, int month_day, int week_day) {
       wd = wd_counter + 1;
     } else if(wd_counter == wd_of_first_month_day) {
       for(int i = 1; i <= monthLength; i++) {
-        printf("%2d   ", i);
-        
+        //printf("%2d   ", i);
+        drawCalendar(i);
         if(wd == 6) {
           printf("\n");
           wd = 0;
@@ -63,8 +62,9 @@ void printCalendar(int monthLength, int month_day, int week_day) {
       
       break;
     }
-  }  
-  printf("\n");
+  } */
+  
+  //printf("\n");*
 }
 
 int isBissextile(int year) {
@@ -101,4 +101,56 @@ int findWeekDayOfFirstMonthDay(int monthLength, int month_day, int week_day)
   }
 
   return week_day;
+}
+
+void drawCalendar(int monthLength, int month_day, int week_day) {
+   // HEARDER
+  
+  printf("_________________________________________________________\n");
+  printf("|   S   |   M   |   T   |   W   |   T   |   F   |   S   |\n");
+  
+  int mt_day = 1;  
+  for(int row = 1; row <= ROWS; row++) {
+    
+    if(row % 2 != 0) {
+      for(int i = 0; i <= 56; i++) {
+        printf("¯");
+      }
+    }
+    else {
+      int wd;
+      int wd_of_first_month_day = 
+        findWeekDayOfFirstMonthDay(monthLength, month_day, week_day);
+  
+      
+      printf("|");
+      for(int wd_counter = 0; wd_counter < 7; wd_counter++) {
+        
+        if(
+          wd_counter < wd_of_first_month_day &&
+          row == 2
+        ) {
+          printf("       |");
+          wd = wd_counter + 1;
+        }
+        else if(wd_counter == wd_of_first_month_day) {
+          while(mt_day <= monthLength) {
+            printf("  %2d   |", mt_day);
+            if(wd == 6) {
+              mt_day++;
+              wd = 0;
+              break;
+            } else {
+              wd++;
+              mt_day++;
+            }
+          }
+        }
+      
+        
+      }
+    }
+ 
+    printf("\n");
+  }
 }
