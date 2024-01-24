@@ -1,0 +1,22 @@
+/*
+  time_t rawtime;
+  time(&rawtime);
+  
+  printf("Raw Time: %ld\n", rawtime);
+  printf("Used time: %ld\n", clock());
+  */
+
+  struct tm* ptr;
+
+  time_t t;
+
+  t = time(NULL);
+
+  // As it is obvious it'll get the local time
+  // ptr = localtime(&t);
+  
+  // accesses the utc(coordinated unirversal time)
+  // ptr = gmtime(&t);
+  
+
+  printf("%s\n", asctime(ptr));
